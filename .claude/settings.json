@@ -22,7 +22,17 @@
       "Bash(chmod +x /Users/kellypetrino/nyc-apt-hunt/run_agent.sh)",
       "Bash(launchctl load *)",
       "Bash(launchctl list *)",
-      "Bash(git rm --cached streeteasy-mcp -q *)"
+      "Bash(git rm --cached streeteasy-mcp -q *)",
+      "Bash(gh auth *)",
+      "Read(//Users/kellypetrino/.ssh/**)",
+      "Bash(git config *)",
+      "Bash(command -v curl)",
+      "Bash(ssh -T git@github.com -o BatchMode=yes -o ConnectTimeout=5)",
+      "Bash(git credential *)",
+      "Bash(curl -s https://api.github.com/meta)",
+      "Bash(python3 -c ' *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)"
     ],
     "additionalDirectories": [
       "/Users/kellypetrino/Library/LaunchAgents",

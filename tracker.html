@@ -1,0 +1,57 @@
+<title>Apartment Tracker</title>
+<style>
+  :root {
+    --paper: #f1f2ed;
+    --ink: #1c201d;
+    --ink-dim: #5b6058;
+    --accent: #22503e;
+    --accent-contrast: #e9f3ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14170f;
+      --ink: #ece9e0;
+      --ink-dim: #9ca097;
+      --accent: #6fbf9c;
+      --accent-contrast: #1e2c22;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14170f;
+    --ink: #ece9e0;
+    --ink-dim: #9ca097;
+    --accent: #6fbf9c;
+    --accent-contrast: #1e2c22;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, system-ui, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 16px;
+    padding-block: 40px;
+    text-align: center;
+  }
+  .box { max-width: 360px; display: flex; flex-direction: column; gap: 14px; }
+  h1 { font-size: 20px; margin: 0; }
+  p { color: var(--ink-dim); font-size: 14px; line-height: 1.5; margin: 0; }
+  a.btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+</style>
+<div class="box">
+  <h1>This page moved</h1>
+  <p>Claude Artifacts can't talk to the Firestore database directly (sandbox restriction), so the live tracker now lives on GitHub Pages instead.</p>
+  <a class="btn" href="https://kellypetrino.github.io/nyc-apt-hunt/">Open the Apartment Tracker →</a>
+</div>

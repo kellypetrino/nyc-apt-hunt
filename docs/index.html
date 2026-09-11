@@ -1,0 +1,377 @@
+<title>Apartment Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #f1f2ed;
+    --surface: #ffffff;
+    --ink: #1c201d;
+    --ink-dim: #5b6058;
+    --line: #dbdcd2;
+    --accent: #22503e;
+    --accent-contrast: #e9f3ec;
+    --brass: #8a6a2c;
+    --brass-contrast: #f3ecdb;
+    --toured: #3c5a7a;
+    --toured-contrast: #e8eef4;
+    --passed: #8b8b83;
+    --passed-contrast: #ececE6;
+    --shadow: 0 1px 2px rgba(28, 32, 29, 0.06), 0 1px 1px rgba(28, 32, 29, 0.04);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14170f;
+      --surface: #1c2018;
+      --ink: #ece9e0;
+      --ink-dim: #9ca097;
+      --line: #333730;
+      --accent: #6fbf9c;
+      --accent-contrast: #1e2c22;
+      --brass: #d3ab5c;
+      --brass-contrast: #2c2517;
+      --toured: #8fb4dd;
+      --toured-contrast: #1c2530;
+      --passed: #a3a79b;
+      --passed-contrast: #26281f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #14170f;
+    --surface: #1c2018;
+    --ink: #ece9e0;
+    --ink-dim: #9ca097;
+    --line: #333730;
+    --accent: #6fbf9c;
+    --accent-contrast: #1e2c22;
+    --brass: #d3ab5c;
+    --brass-contrast: #2c2517;
+    --toured: #8fb4dd;
+    --toured-contrast: #1c2530;
+    --passed: #a3a79b;
+    --passed-contrast: #26281f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    margin: 0;
+    padding-inline: 16px;
+    padding-block: 20px 48px;
+  }
+
+  .wrap { max-width: 480px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .subhead {
+    color: var(--ink-dim);
+    font-size: 13px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-block: 4px 18px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+
+  .filter-chip {
+    flex: 0 0 auto;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-dim);
+    cursor: pointer;
+  }
+  .filter-chip[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-contrast);
+  }
+  .filter-chip .count { font-variant-numeric: tabular-nums; opacity: 0.75; margin-left: 3px; }
+
+  .list { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    display: flex;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .card img {
+    width: 84px;
+    height: 84px;
+    border-radius: 7px;
+    object-fit: cover;
+    flex: 0 0 auto;
+    background: var(--paper);
+  }
+  .card .no-photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 7px;
+    flex: 0 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-dim);
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .card-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+
+  .price {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .address { font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .meta { font-size: 12px; color: var(--ink-dim); }
+
+  .badges { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 1px; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: var(--accent-contrast);
+    color: var(--accent);
+  }
+
+  .row-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+
+  a.se-link { font-size: 12px; color: var(--toured); text-decoration: none; font-weight: 500; }
+  a.se-link:hover { text-decoration: underline; }
+
+  .status-set { display: flex; gap: 4px; }
+  .status-btn {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    cursor: pointer;
+  }
+  .status-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .status-btn[data-active="true"][data-status="new"] { background: var(--toured-contrast); border-color: var(--toured); color: var(--toured); }
+  .status-btn[data-active="true"][data-status="interested"] { background: var(--brass-contrast); border-color: var(--brass); color: var(--brass); }
+  .status-btn[data-active="true"][data-status="toured"] { background: var(--accent-contrast); border-color: var(--accent); color: var(--accent); }
+  .status-btn[data-active="true"][data-status="passed"] { background: var(--passed-contrast); border-color: var(--passed); color: var(--passed); }
+
+  .empty, .loading {
+    color: var(--ink-dim);
+    font-size: 14px;
+    padding: 40px 8px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .conn-warning {
+    font-size: 12px;
+    color: var(--brass);
+    background: var(--brass-contrast);
+    border-radius: 7px;
+    padding: 8px 10px;
+    margin-bottom: 14px;
+    display: none;
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Apartment Tracker</h1>
+    <div class="subhead">2BR · Doorman · $6–8k · UES, Gramercy, Tribeca, Chelsea, Flatiron, Kips Bay</div>
+  </header>
+
+  <div class="conn-warning" id="connWarning">Couldn't connect — check your connection and reload.</div>
+
+  <div class="filters" id="filters"></div>
+  <div class="list" id="list">
+    <div class="loading">Loading listings…</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.14.1/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.14.1/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.14.1/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA5RX96RF-jcTRqH4N9Y083eqvMt_Q_yPY",
+    authDomain: "nyc-apt-hunt-a685e.firebaseapp.com",
+    projectId: "nyc-apt-hunt-a685e",
+    storageBucket: "nyc-apt-hunt-a685e.firebasestorage.app",
+    messagingSenderId: "80793957165",
+    appId: "1:80793957165:web:0f7b5739a01edbacb659a4",
+  };
+
+  const STATUSES = ["new", "interested", "toured", "passed"];
+  const STATUS_LABEL = { new: "New", interested: "Interested", toured: "Toured", passed: "Passed" };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const listEl = document.getElementById("list");
+  const filtersEl = document.getElementById("filters");
+  const warnEl = document.getElementById("connWarning");
+
+  let listings = [];
+  let activeFilter = "all";
+
+  function money(n) {
+    return "$" + Number(n).toLocaleString();
+  }
+
+  function renderFilters() {
+    const counts = { all: listings.length };
+    for (const s of STATUSES) counts[s] = listings.filter((l) => l.status === s).length;
+
+    const defs = [["all", "All"], ...STATUSES.map((s) => [s, STATUS_LABEL[s]])];
+    filtersEl.innerHTML = "";
+    for (const [key, label] of defs) {
+      const btn = document.createElement("button");
+      btn.className = "filter-chip";
+      btn.type = "button";
+      btn.setAttribute("aria-pressed", String(key === activeFilter));
+      btn.innerHTML = `${label}<span class="count">${counts[key] ?? 0}</span>`;
+      btn.addEventListener("click", () => {
+        activeFilter = key;
+        renderFilters();
+        renderList();
+      });
+      filtersEl.appendChild(btn);
+    }
+  }
+
+  function renderList() {
+    const visible =
+      activeFilter === "all" ? listings : listings.filter((l) => l.status === activeFilter);
+
+    if (visible.length === 0) {
+      listEl.innerHTML = `<div class="empty">${
+        listings.length === 0
+          ? "No listings synced yet. They'll appear here after the next scheduled search finds a match."
+          : "Nothing in this filter."
+      }</div>`;
+      return;
+    }
+
+    listEl.innerHTML = "";
+    for (const l of visible) {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const media = l.leadPhotoUrl
+        ? `<img src="${l.leadPhotoUrl}" alt="" loading="lazy" />`
+        : `<div class="no-photo">No photo</div>`;
+
+      const badges = (l.amenities || [])
+        .filter((a) => a === "WASHER_DRYER" || a === "GYM")
+        .map((a) => `<span class="badge">${a === "WASHER_DRYER" ? "In-unit W/D" : "Gym"}</span>`)
+        .join("");
+
+      const statusButtons = STATUSES.map(
+        (s) =>
+          `<button class="status-btn" type="button" data-status="${s}" data-active="${
+            l.status === s
+          }" data-id="${l.id}">${STATUS_LABEL[s]}</button>`
+      ).join("");
+
+      card.innerHTML = `
+        ${media}
+        <div class="card-body">
+          <div class="price">${money(l.price)}/mo</div>
+          <div class="address">${l.address || ""}</div>
+          <div class="meta">${l.neighborhood || ""} · ${l.bedrooms ?? "?"} bd / ${l.bathrooms ?? "?"} ba</div>
+          ${badges ? `<div class="badges">${badges}</div>` : ""}
+          <div class="row-bottom">
+            <a class="se-link" href="${l.url}" target="_blank" rel="noopener">StreetEasy →</a>
+          </div>
+          <div class="status-set">${statusButtons}</div>
+        </div>
+      `;
+      listEl.appendChild(card);
+    }
+
+    listEl.querySelectorAll(".status-btn").forEach((btn) => {
+      btn.addEventListener("click", () => setStatus(btn.dataset.id, btn.dataset.status));
+    });
+  }
+
+  async function setStatus(id, status) {
+    const listing = listings.find((l) => l.id === id);
+    if (listing) {
+      listing.status = status;
+      renderFilters();
+      renderList();
+    }
+    try {
+      await db.collection("listings").doc(id).update({ status });
+    } catch (err) {
+      console.error("Failed to update status", err);
+    }
+  }
+
+  auth
+    .signInAnonymously()
+    .then(() => {
+      db.collection("listings")
+        .orderBy("createdAt", "desc")
+        .onSnapshot(
+          (snap) => {
+            listings = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+            renderFilters();
+            renderList();
+          },
+          (err) => {
+            console.error("Firestore listen failed", err);
+            warnEl.style.display = "block";
+          }
+        );
+    })
+    .catch((err) => {
+      console.error("Anonymous sign-in failed", err);
+      warnEl.style.display = "block";
+      listEl.innerHTML = `<div class="empty">Couldn't sign in — reload to try again.</div>`;
+    });
+</script>

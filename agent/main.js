@@ -3,6 +3,7 @@ import { withMcpClient } from "./mcp_client.js";
 import { findNewListings } from "./search.js";
 import { loadSeenIds, saveSeenIds } from "./dedup.js";
 import { sendDigest } from "./email_digest.js";
+import { syncToFirestore } from "./firestore_sync.js";
 
 function log(msg) {
   console.log(`[${new Date().toISOString()}] ${msg}`);
@@ -23,6 +24,13 @@ async function run() {
     log(`Sent digest email with ${newListings.length} listing(s).`);
   } else {
     log("No new listings — no email sent.");
+  }
+
+  try {
+    await syncToFirestore(newListings);
+    log(`Synced ${newListings.length} listing(s) to Firestore.`);
+  } catch (err) {
+    log(`Firestore sync failed (non-fatal): ${err.message}`);
   }
 
   const updatedSeenIds = new Set([...seenIds, ...allIds]);
