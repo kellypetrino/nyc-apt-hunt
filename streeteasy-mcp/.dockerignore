@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.env
+*.log
+test-client.mjs
+.DS_Store
+.railway

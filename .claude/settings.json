@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm --version)",
+      "Bash(npm run *)",
+      "Bash(command -v nvm)",
+      "Bash(command -v fnm)",
+      "Bash(command -v n)",
+      "Bash(command -v brew)",
+      "Read(//Users/kellypetrino/**)",
+      "Bash(brew list *)",
+      "Read(//usr/local/bin/**)",
+      "Bash(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh)",
+      "Bash(bash)",
+      "Bash(kill 56385)",
+      "Bash(rm -rf .venv)",
+      "Bash(mkdir -p agent state)",
+      "Bash(npm audit *)",
+      "Bash(sw_vers)",
+      "Read(//Users/kellypetrino/Library/LaunchAgents/**)",
+      "Bash(chmod +x /Users/kellypetrino/nyc-apt-hunt/run_agent.sh)",
+      "Bash(launchctl load *)",
+      "Bash(launchctl list *)",
+      "Bash(git rm --cached streeteasy-mcp -q *)"
+    ],
+    "additionalDirectories": [
+      "/Users/kellypetrino/Library/LaunchAgents",
+      "/Users/kellypetrino/nyc-apt-hunt/streeteasy-mcp/.git"
+    ]
+  }
+}
