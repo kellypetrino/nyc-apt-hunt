@@ -8,7 +8,11 @@ const STDIO_ENTRY = fileURLToPath(
 
 export async function withMcpClient(fn) {
   const transport = new StdioClientTransport({
-    command: "node",
+    // Use the exact node binary running this process (process.execPath),
+    // not the bare "node" command — launchd runs with a minimal PATH
+    // (/usr/bin:/bin:/usr/sbin:/sbin) that doesn't include nvm's node,
+    // so spawning by name alone fails with ENOENT under the schedule.
+    command: process.execPath,
     args: [STDIO_ENTRY],
   });
   const client = new Client({ name: "nyc-apt-hunt-agent", version: "1.0.0" });
