@@ -32,7 +32,11 @@
       "Bash(curl -s https://api.github.com/meta)",
       "Bash(python3 -c ' *)",
       "Bash(git remote *)",
-      "Bash(git branch *)"
+      "Bash(git branch *)",
+      "Bash(env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin HOME=/Users/kellypetrino /Users/kellypetrino/nyc-apt-hunt/run_agent.sh)",
+      "Bash(which caffeinate; ls -la /usr/bin/caffeinate)",
+      "Read(//usr/bin/**)",
+      "Bash(pmset -g sched)"
     ],
     "additionalDirectories": [
       "/Users/kellypetrino/Library/LaunchAgents",
