@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.kelly.nycapthunt.wake</string>
+
+  <!-- Keeps the Mac from idle-sleeping from 8:56am to ~6:07pm, so the
+       9am/1pm/6pm nyc-apt-hunt runs actually fire. Paired with a pmset
+       wake schedule (set separately, see README) that wakes the Mac at
+       8:55am if it was already asleep. Doesn't override lid-closed sleep
+       (no local software can) -- only covers "awake but idle" sleep. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
+    <string>-t</string>
+    <string>33060</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>8</integer>
+    <key>Minute</key>
+    <integer>56</integer>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>/Users/kellypetrino/nyc-apt-hunt/wake.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/kellypetrino/nyc-apt-hunt/wake.log</string>
+
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>

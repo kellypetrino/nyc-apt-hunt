@@ -64,14 +64,30 @@ static site has no such restriction.
      as `agent/firebase-service-account.json` (gitignored)
    - Project settings → General → add a web app, copy the `firebaseConfig`
      object into the `firebaseConfig` constant in `docs/index.html`
-6. **Schedule it:** the included `com.kelly.nycapthunt.plist` (installed at
-   `~/Library/LaunchAgents/`) runs `run_agent.sh` at 9am/1pm/6pm daily via
-   `launchd`. Load it with:
+6. **Schedule it:** `launchd/com.kelly.nycapthunt.plist` runs `run_agent.sh`
+   at 9am/1pm/6pm daily. Copy it into place and load it:
    ```
+   cp launchd/com.kelly.nycapthunt.plist ~/Library/LaunchAgents/
    launchctl load ~/Library/LaunchAgents/com.kelly.nycapthunt.plist
    ```
 7. **Host the tracker:** GitHub Pages, serving `/docs` on `main` (already
    enabled for this repo at Settings → Pages).
+8. **Keep it awake for the schedule:** `launchd` calendar jobs are silently
+   skipped if the Mac is asleep, so two more pieces cover the "open but
+   idle" case (a closed lid still sleeps regardless — no local fix for
+   that):
+   - `launchd/com.kelly.nycapthunt.wake.plist` runs
+     `caffeinate -i -t 33060` at 8:56am, holding the Mac awake through the
+     last (6pm) run:
+     ```
+     cp launchd/com.kelly.nycapthunt.wake.plist ~/Library/LaunchAgents/
+     launchctl load ~/Library/LaunchAgents/com.kelly.nycapthunt.wake.plist
+     ```
+   - A daily wake-from-sleep schedule, set once via:
+     ```
+     sudo pmset repeat wakeorpoweron MTWRFSU 08:55:00
+     ```
+     Verify with `pmset -g sched`.
 
 ## Logs
 
