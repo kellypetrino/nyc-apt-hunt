@@ -45,9 +45,12 @@ export async function findNewListings(client, seenIds) {
   const allIds = new Set(listings.map((l) => l.id));
   const candidates = listings.filter((l) => !seenIds.has(l.id));
 
+  // A detail request fired immediately after the search call (zero think-time)
+  // doesn't look like normal browsing, so pace every detail fetch, including
+  // the first.
   const enriched = [];
   for (const listing of candidates) {
-    if (enriched.length > 0) await sleep(DETAIL_FETCH_DELAY_MS);
+    await sleep(DETAIL_FETCH_DELAY_MS);
     enriched.push(await enrichListing(client, listing));
   }
 
