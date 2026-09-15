@@ -5,7 +5,7 @@ filter, emails you the new matches, and syncs them to a mobile-friendly
 tracker where you can mark each one Interested / Toured / Passed.
 
 **Current search:** 2BR, doorman, $6,000–$8,000/mo, in Upper East Side,
-Gramercy, Tribeca, Chelsea, Flatiron, or Kips Bay — see
+Gramercy, Tribeca, Chelsea, or Flatiron — see
 [`agent/config.js`](agent/config.js) to change it. StreetEasy's DOORMAN
 filter doesn't distinguish full-time from virtual doorman, and checking
 would mean an extra API call per listing — which is what was tripping

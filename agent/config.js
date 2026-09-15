@@ -4,7 +4,6 @@ export const AREAS = [
   "TRIBECA",
   "CHELSEA",
   "FLATIRON",
-  "KIPS_BAY",
 ];
 
 export const FILTERS = {
