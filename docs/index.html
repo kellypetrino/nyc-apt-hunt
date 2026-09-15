@@ -221,6 +221,7 @@
   <header>
     <h1>Apartment Tracker</h1>
     <div class="subhead">2BR · Doorman · $6–8k · UES, Gramercy, Tribeca, Chelsea, Flatiron, Kips Bay</div>
+    <div class="subhead">Doorman type isn't auto-verified — check each listing before ruling it out.</div>
   </header>
 
   <div class="conn-warning" id="connWarning">Couldn't connect — check your connection and reload.</div>
@@ -305,10 +306,7 @@
         ? `<img src="${l.leadPhotoUrl}" alt="" loading="lazy" />`
         : `<div class="no-photo">No photo</div>`;
 
-      const badges = (l.amenities || [])
-        .filter((a) => a === "WASHER_DRYER" || a === "GYM")
-        .map((a) => `<span class="badge">${a === "WASHER_DRYER" ? "In-unit W/D" : "Gym"}</span>`)
-        .join("");
+      const badges = Number(l.bathrooms) >= 2 ? `<span class="badge">2 baths</span>` : "";
 
       const statusButtons = STATUSES.map(
         (s) =>

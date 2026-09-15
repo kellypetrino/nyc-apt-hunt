@@ -4,9 +4,13 @@ A scheduled agent that searches StreetEasy for apartments matching a saved
 filter, emails you the new matches, and syncs them to a mobile-friendly
 tracker where you can mark each one Interested / Toured / Passed.
 
-**Current search:** 2BR, doorman (no virtual doorman), $6,000–$8,000/mo, in
-Upper East Side, Gramercy, Tribeca, Chelsea, Flatiron, or Kips Bay — see
-[`agent/config.js`](agent/config.js) to change it.
+**Current search:** 2BR, doorman, $6,000–$8,000/mo, in Upper East Side,
+Gramercy, Tribeca, Chelsea, Flatiron, or Kips Bay — see
+[`agent/config.js`](agent/config.js) to change it. StreetEasy's DOORMAN
+filter doesn't distinguish full-time from virtual doorman, and checking
+would mean an extra API call per listing — which is what was tripping
+StreetEasy's bot detection — so doorman type isn't auto-verified; spot-check
+listings before ruling a building in or out.
 
 ## How it works
 
@@ -14,11 +18,17 @@ Upper East Side, Gramercy, Tribeca, Chelsea, Flatiron, or Kips Bay — see
 launchd (9am / 1pm / 6pm daily)
   → run_agent.sh
     → agent/main.js
-        1. search.js       search StreetEasy via a local MCP server (stdio)
+        1. search.js       ONE search_rentals call via a local MCP server (stdio)
         2. dedup.js         drop listings already seen (state/seen_listings.json)
         3. email_digest.js  email new matches via Gmail SMTP
         4. firestore_sync.js  push new matches to Firestore (status: "new")
 ```
+
+Each run makes exactly one StreetEasy API call, deliberately — an earlier
+version made a follow-up `get_rental_details` call per new listing (to check
+doorman type and amenities), and that per-listing call volume is what was
+triggering PerimeterX bot-detection blocks in testing, even from a
+legitimate home IP on a properly spaced schedule.
 
 The tracker page ([`docs/index.html`](docs/index.html), hosted on GitHub
 Pages at **https://kellypetrino.github.io/nyc-apt-hunt/**) reads/writes that

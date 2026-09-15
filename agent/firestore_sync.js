@@ -36,7 +36,6 @@ export async function syncToFirestore(listings) {
       price: listing.price,
       bedrooms: listing.bedrooms,
       bathrooms: listing.bathrooms,
-      amenities: listing.amenities || [],
       url: listing.url,
       leadPhotoUrl: listing.leadPhotoUrl || null,
       status: "new",

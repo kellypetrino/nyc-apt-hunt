@@ -32,9 +32,14 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  * retries are a token effort — the real recovery is the next scheduled run,
  * hours later, once the flag clears.
  */
-export async function callTool(client, name, args, { retries = 1, backoffMs = 8000 } = {}) {
+export async function callTool(
+  client,
+  name,
+  args,
+  { retries = 1, backoffMs = 8000, timeout = 60_000 } = {}
+) {
   for (let attempt = 0; ; attempt += 1) {
-    const result = await client.callTool({ name, arguments: args });
+    const result = await client.callTool({ name, arguments: args }, undefined, { timeout });
     if (!result.isError) return JSON.parse(result.content[0].text);
 
     const message = result.content?.[0]?.text ?? "unknown error";

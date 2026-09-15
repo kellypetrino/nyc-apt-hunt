@@ -20,12 +20,12 @@ export const FILTERS = {
 };
 
 // StreetEasy's DOORMAN amenity token doesn't distinguish full-time vs.
-// virtual doorman. Listings whose description mentions "virtual doorman"
-// are excluded client-side.
-export const VIRTUAL_DOORMAN_PATTERN = /virtual\s+doorman/i;
-
+// virtual doorman, and search results don't include enough detail to tell
+// them apart automatically (checking would mean a get_rental_details call
+// per listing, which is what was tripping bot detection) — so doorman type
+// isn't verified here. Spot-check on StreetEasy before ruling a building in
+// or out.
 export const NICE_TO_HAVES = {
-  washerDryer: (listing) => (listing.amenities || []).includes("WASHER_DRYER"),
   twoBaths: (listing) => Number(listing.bathrooms) >= 2,
 };
 

@@ -36,7 +36,12 @@
       "Bash(env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin HOME=/Users/kellypetrino /Users/kellypetrino/nyc-apt-hunt/run_agent.sh)",
       "Bash(which caffeinate; ls -la /usr/bin/caffeinate)",
       "Read(//usr/bin/**)",
-      "Bash(pmset -g sched)"
+      "Bash(pmset -g sched)",
+      "Bash(curl -s https://api.ipify.org)",
+      "Bash(curl -s ifconfig.me)",
+      "Bash(curl -s \"https://ipinfo.io/65.112.8.52/json\")",
+      "Bash(curl -s \"https://ipinfo.io/$\\(curl -s https://api.ipify.org\\)/json\")",
+      "Bash(node -e ' *)"
     ],
     "additionalDirectories": [
       "/Users/kellypetrino/Library/LaunchAgents",

@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { NICE_TO_HAVES, RECIPIENT_EMAIL } from "./config.js";
 
 function isNiceToHave(listing) {
-  return NICE_TO_HAVES.washerDryer(listing) || NICE_TO_HAVES.twoBaths(listing);
+  return NICE_TO_HAVES.twoBaths(listing);
 }
 
 function sortListings(listings) {
@@ -15,7 +15,6 @@ function formatMoney(n) {
 
 function listingHtml(listing) {
   const badges = [];
-  if (NICE_TO_HAVES.washerDryer(listing)) badges.push("In-unit W/D");
   if (NICE_TO_HAVES.twoBaths(listing)) badges.push("2 baths");
   const badgeHtml = badges.length
     ? `<div style="margin-top:4px;">${badges
@@ -51,6 +50,7 @@ function digestHtml(listings) {
   const rows = sortListings(listings).map(listingHtml).join("\n");
   return `<html><body style="font-family:-apple-system,sans-serif;max-width:480px;margin:0 auto;">
     <h2>${listings.length} new apartment${listings.length === 1 ? "" : "s"}</h2>
+    <p style="color:#888;font-size:12px;">Doorman type isn't auto-verified (StreetEasy's filter doesn't distinguish full-time from virtual) — check each listing before ruling it in or out.</p>
     <table style="width:100%;border-collapse:collapse;">${rows}</table>
   </body></html>`;
 }
